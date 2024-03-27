@@ -7,13 +7,33 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid Name="dg" AutoGenerateColumns="False" IsReadOnly="True" >
+
+        <DataGrid  Name="dh" AutoGenerateColumns="False" IsReadOnly="False" SelectionChanged="dh_SelectionChanged"  Width="Auto" Height="Auto" Margin="0,117,400,217">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding MedicationID }"/>
-                <DataGridTextColumn Binding="{Binding MedicationName }"/>
-                <DataGridTextColumn Binding="{Binding Description}"/>
-                <DataGridTextColumn Binding="{Binding }"/>
+                <DataGridTextColumn Binding="{Binding Address }"/>
+                <DataGridTextColumn Binding="{Binding WarehouseName }"/>
+                <DataGridTextColumn Binding="{Binding WarehouseID}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <DataGrid Name="dg" AutoGenerateColumns="False" IsReadOnly="False" SelectionChanged="dg_SelectionChanged"  Width="Auto" Height="Auto" Margin="0,17,400,317">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер склада" Binding="{Binding WaregouseID }"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description }"/>
+                <DataGridTextColumn Header="Наименование " Binding="{Binding MedicationName}"/>
+                <DataGridTextColumn Header="Номер медицины" Binding="{Binding MedicationID}"/>
+            </DataGrid.Columns>
+        </DataGrid> 
+        <DataGrid Name="spis" AutoGenerateColumns="False" IsReadOnly="False" SelectionChanged="spis_SelectionChanged"  Width="Auto" Height="Auto" Margin="405,17,-5,317">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер списания" Binding="{Binding DisposalID }"/>
+                <DataGridTextColumn Header="Номер в инвентаре" Binding="{Binding InventoryID }"/>
+                <DataGridTextColumn Header="кол-во " Binding="{Binding Quantity}"/>
+                <DataGridTextColumn Header="Дата списания" Binding="{Binding DisposalDate}"/>
+                <DataGridTextColumn Header="Причина" Binding="{Binding Reason}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Height="30 " Width="100" Margin="0 0 -700 0" VerticalAlignment="Bottom" Name="save" Click="save_Click" Content="Сохранить"/>
+        <Button Height="30 " Width="100" Margin="0 0 -500 0 " VerticalAlignment="Bottom" Name="delete" Click="delete_Click" Content="Удалить"/>
+        <Button Height="30 " Width="100" Margin="0 0 -300 0 " VerticalAlignment="Bottom" Name="spitat" Click="spitat_Click" Content="Списать"/>
     </Grid>
 </Window>

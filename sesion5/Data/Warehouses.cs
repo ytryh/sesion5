@@ -18,6 +18,7 @@ namespace sesion5.Data
         public Warehouses()
         {
             this.Inventory = new HashSet<Inventory>();
+            this.Medications = new HashSet<Medications>();
             this.Transfers = new HashSet<Transfers>();
             this.Transfers1 = new HashSet<Transfers>();
         }
@@ -28,6 +29,8 @@ namespace sesion5.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inventory> Inventory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Medications> Medications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfers> Transfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -32,6 +32,7 @@
           <Property Name="MedicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MedicationName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="WaregouseID" Type="int" />
         </EntityType>
         <EntityType Name="Postavki">
           <Key>
@@ -178,6 +179,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Medications_Warehouses">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Medications" Type="Self.Medications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Medications">
+              <PropertyRef Name="WaregouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище useModelContainer">
           <EntitySet Name="Disposals" EntityType="Self.Disposals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
@@ -219,6 +232,10 @@
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="Transfers" EntitySet="Transfers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Medications_Warehouses" Association="Self.FK_Medications_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Medications" EntitySet="Medications" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -256,10 +273,12 @@
           <Property Name="MedicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MedicationName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WaregouseID" Type="Int32" />
           <NavigationProperty Name="Inventory" Relationship="Self.FK__Inventory__Medic__3B75D760" FromRole="Medications" ToRole="Inventory" />
           <NavigationProperty Name="Requests" Relationship="Self.FK__Requests__Medica__44FF419A" FromRole="Medications" ToRole="Requests" />
           <NavigationProperty Name="Postavki" Relationship="Self.FK__Shipments__Medic__3F466844" FromRole="Medications" ToRole="Postavki" />
           <NavigationProperty Name="Transfers" Relationship="Self.FK__Transfers__Medic__49C3F6B7" FromRole="Medications" ToRole="Transfers" />
+          <NavigationProperty Name="Warehouses" Relationship="Self.FK_Medications_Warehouses" FromRole="Medications" ToRole="Warehouses" />
         </EntityType>
         <EntityType Name="Postavki">
           <Key>
@@ -315,6 +334,7 @@
           <Property Name="WarehouseName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Inventory" Relationship="Self.FK__Inventory__Wareh__3C69FB99" FromRole="Warehouses" ToRole="Inventory" />
+          <NavigationProperty Name="Medications" Relationship="Self.FK_Medications_Warehouses" FromRole="Warehouses" ToRole="Medications" />
           <NavigationProperty Name="Transfers" Relationship="Self.FK__Transfers__FromW__47DBAE45" FromRole="Warehouses" ToRole="Transfers" />
           <NavigationProperty Name="Transfers1" Relationship="Self.FK__Transfers__ToWar__48CFD27E" FromRole="Warehouses" ToRole="Transfers" />
         </EntityType>
@@ -390,6 +410,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Medications_Warehouses">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Medications" Type="Self.Medications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Medications">
+              <PropertyRef Name="WaregouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Transfers__FromW__47DBAE45">
           <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
           <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
@@ -447,6 +479,10 @@
             <End Role="Medications" EntitySet="Medications" />
             <End Role="Transfers" EntitySet="Transfers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Medications_Warehouses" Association="Self.FK_Medications_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Medications" EntitySet="Medications" />
+          </AssociationSet>
           <AssociationSet Name="FK__Transfers__FromW__47DBAE45" Association="Self.FK__Transfers__FromW__47DBAE45">
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="Transfers" EntitySet="Transfers" />
@@ -490,6 +526,7 @@
                 <ScalarProperty Name="MedicationID" ColumnName="MedicationID" />
                 <ScalarProperty Name="MedicationName" ColumnName="MedicationName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="WaregouseID" ColumnName="WaregouseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

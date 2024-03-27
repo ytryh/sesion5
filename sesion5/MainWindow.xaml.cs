@@ -28,6 +28,46 @@ namespace sesion5
             InitializeComponent();
             db.Medications.Load();
             dg.ItemsSource= db.Medications.Local.ToBindingList();
+
+            db.Warehouses.Load();
+            dh.ItemsSource = db.Warehouses.Local.ToBindingList();
+           
+            db.Warehouses.Load();
+            spis.ItemsSource = db.Disposals.Local.ToBindingList();
+        }
+
+        private void dg_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            db.SaveChanges();
+        }
+
+        private void dh_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            db.SaveChanges();
+        }
+
+        private void save_Click(object sender, RoutedEventArgs e)
+        {
+            db.SaveChanges();
+        }
+
+        private void delete_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Успешно");
+            db.SaveChanges();
+        }
+
+        private void spitat_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Успешне списание");
+            db.SaveChanges();
+
+        }
+
+        private void spis_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            db.SaveChanges();
         }
     }
 }

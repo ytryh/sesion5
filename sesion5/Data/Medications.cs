@@ -26,6 +26,7 @@ namespace sesion5.Data
         public int MedicationID { get; set; }
         public string MedicationName { get; set; }
         public string Description { get; set; }
+        public Nullable<int> WaregouseID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inventory> Inventory { get; set; }
@@ -35,5 +36,6 @@ namespace sesion5.Data
         public virtual ICollection<Postavki> Postavki { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfers> Transfers { get; set; }
+        public virtual Warehouses Warehouses { get; set; }
     }
 }
