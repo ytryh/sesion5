@@ -1,0 +1,573 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище useModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Disposals">
+          <Key>
+            <PropertyRef Name="DisposalID" />
+          </Key>
+          <Property Name="DisposalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InventoryID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="DisposalDate" Type="date" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="InventoryID" />
+          </Key>
+          <Property Name="InventoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicationID" Type="int" />
+          <Property Name="WarehouseID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="ExpiryDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Medications">
+          <Key>
+            <PropertyRef Name="MedicationID" />
+          </Key>
+          <Property Name="MedicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicationName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Postavki">
+          <Key>
+            <PropertyRef Name="ShipmentID" />
+          </Key>
+          <Property Name="ShipmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicationID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="ArrivalDate" Type="date" />
+          <Property Name="ExpiryDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentID" Type="int" />
+          <Property Name="MedicationID" Type="int" />
+          <Property Name="QuantityRequested" Type="int" />
+          <Property Name="RequestDate" Type="date" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Transfers">
+          <Key>
+            <PropertyRef Name="TransferID" />
+          </Key>
+          <Property Name="TransferID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromWarehouseID" Type="int" />
+          <Property Name="ToWarehouseID" Type="int" />
+          <Property Name="MedicationID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="TransferDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Warehouses">
+          <Key>
+            <PropertyRef Name="WarehouseID" />
+          </Key>
+          <Property Name="WarehouseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WarehouseName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Disposals__Inven__4222D4EF">
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="0..1" />
+          <End Role="Disposals" Type="Self.Disposals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventory">
+              <PropertyRef Name="InventoryID" />
+            </Principal>
+            <Dependent Role="Disposals">
+              <PropertyRef Name="InventoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Medic__3B75D760">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Wareh__3C69FB99">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Requests__Medica__44FF419A">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shipments__Medic__3F466844">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Postavki" Type="Self.Postavki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Postavki">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transfers__FromW__47DBAE45">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="FromWarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transfers__Medic__49C3F6B7">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transfers__ToWar__48CFD27E">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="ToWarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище useModelContainer">
+          <EntitySet Name="Disposals" EntityType="Self.Disposals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medications" EntityType="Self.Medications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Postavki" EntityType="Self.Postavki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transfers" EntityType="Self.Transfers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Disposals__Inven__4222D4EF" Association="Self.FK__Disposals__Inven__4222D4EF">
+            <End Role="Inventory" EntitySet="Inventory" />
+            <End Role="Disposals" EntitySet="Disposals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Medic__3B75D760" Association="Self.FK__Inventory__Medic__3B75D760">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Wareh__3C69FB99" Association="Self.FK__Inventory__Wareh__3C69FB99">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Requests__Medica__44FF419A" Association="Self.FK__Requests__Medica__44FF419A">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shipments__Medic__3F466844" Association="Self.FK__Shipments__Medic__3F466844">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Postavki" EntitySet="Postavki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transfers__FromW__47DBAE45" Association="Self.FK__Transfers__FromW__47DBAE45">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Transfers" EntitySet="Transfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transfers__Medic__49C3F6B7" Association="Self.FK__Transfers__Medic__49C3F6B7">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Transfers" EntitySet="Transfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transfers__ToWar__48CFD27E" Association="Self.FK__Transfers__ToWar__48CFD27E">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Transfers" EntitySet="Transfers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="useModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Disposals">
+          <Key>
+            <PropertyRef Name="DisposalID" />
+          </Key>
+          <Property Name="DisposalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InventoryID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="DisposalDate" Type="DateTime" Precision="0" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Inventory" Relationship="Self.FK__Disposals__Inven__4222D4EF" FromRole="Disposals" ToRole="Inventory" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="InventoryID" />
+          </Key>
+          <Property Name="InventoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicationID" Type="Int32" />
+          <Property Name="WarehouseID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Disposals" Relationship="Self.FK__Disposals__Inven__4222D4EF" FromRole="Inventory" ToRole="Disposals" />
+          <NavigationProperty Name="Medications" Relationship="Self.FK__Inventory__Medic__3B75D760" FromRole="Inventory" ToRole="Medications" />
+          <NavigationProperty Name="Warehouses" Relationship="Self.FK__Inventory__Wareh__3C69FB99" FromRole="Inventory" ToRole="Warehouses" />
+        </EntityType>
+        <EntityType Name="Medications">
+          <Key>
+            <PropertyRef Name="MedicationID" />
+          </Key>
+          <Property Name="MedicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicationName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Inventory" Relationship="Self.FK__Inventory__Medic__3B75D760" FromRole="Medications" ToRole="Inventory" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK__Requests__Medica__44FF419A" FromRole="Medications" ToRole="Requests" />
+          <NavigationProperty Name="Postavki" Relationship="Self.FK__Shipments__Medic__3F466844" FromRole="Medications" ToRole="Postavki" />
+          <NavigationProperty Name="Transfers" Relationship="Self.FK__Transfers__Medic__49C3F6B7" FromRole="Medications" ToRole="Transfers" />
+        </EntityType>
+        <EntityType Name="Postavki">
+          <Key>
+            <PropertyRef Name="ShipmentID" />
+          </Key>
+          <Property Name="ShipmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicationID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="ArrivalDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Medications" Relationship="Self.FK__Shipments__Medic__3F466844" FromRole="Postavki" ToRole="Medications" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentID" Type="Int32" />
+          <Property Name="MedicationID" Type="Int32" />
+          <Property Name="QuantityRequested" Type="Int32" />
+          <Property Name="RequestDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Medications" Relationship="Self.FK__Requests__Medica__44FF419A" FromRole="Requests" ToRole="Medications" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transfers">
+          <Key>
+            <PropertyRef Name="TransferID" />
+          </Key>
+          <Property Name="TransferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromWarehouseID" Type="Int32" />
+          <Property Name="ToWarehouseID" Type="Int32" />
+          <Property Name="MedicationID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="TransferDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Medications" Relationship="Self.FK__Transfers__Medic__49C3F6B7" FromRole="Transfers" ToRole="Medications" />
+          <NavigationProperty Name="Warehouses" Relationship="Self.FK__Transfers__FromW__47DBAE45" FromRole="Transfers" ToRole="Warehouses" />
+          <NavigationProperty Name="Warehouses1" Relationship="Self.FK__Transfers__ToWar__48CFD27E" FromRole="Transfers" ToRole="Warehouses" />
+        </EntityType>
+        <EntityType Name="Warehouses">
+          <Key>
+            <PropertyRef Name="WarehouseID" />
+          </Key>
+          <Property Name="WarehouseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WarehouseName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Inventory" Relationship="Self.FK__Inventory__Wareh__3C69FB99" FromRole="Warehouses" ToRole="Inventory" />
+          <NavigationProperty Name="Transfers" Relationship="Self.FK__Transfers__FromW__47DBAE45" FromRole="Warehouses" ToRole="Transfers" />
+          <NavigationProperty Name="Transfers1" Relationship="Self.FK__Transfers__ToWar__48CFD27E" FromRole="Warehouses" ToRole="Transfers" />
+        </EntityType>
+        <Association Name="FK__Disposals__Inven__4222D4EF">
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="0..1" />
+          <End Role="Disposals" Type="Self.Disposals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventory">
+              <PropertyRef Name="InventoryID" />
+            </Principal>
+            <Dependent Role="Disposals">
+              <PropertyRef Name="InventoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Medic__3B75D760">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Wareh__3C69FB99">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Requests__Medica__44FF419A">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shipments__Medic__3F466844">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Postavki" Type="Self.Postavki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Postavki">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transfers__Medic__49C3F6B7">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="MedicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transfers__FromW__47DBAE45">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="FromWarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transfers__ToWar__48CFD27E">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="ToWarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="useEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Disposals" EntityType="Self.Disposals" />
+          <EntitySet Name="Inventory" EntityType="Self.Inventory" />
+          <EntitySet Name="Medications" EntityType="Self.Medications" />
+          <EntitySet Name="Postavki" EntityType="Self.Postavki" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Transfers" EntityType="Self.Transfers" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouses" />
+          <AssociationSet Name="FK__Disposals__Inven__4222D4EF" Association="Self.FK__Disposals__Inven__4222D4EF">
+            <End Role="Inventory" EntitySet="Inventory" />
+            <End Role="Disposals" EntitySet="Disposals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Medic__3B75D760" Association="Self.FK__Inventory__Medic__3B75D760">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Wareh__3C69FB99" Association="Self.FK__Inventory__Wareh__3C69FB99">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Requests__Medica__44FF419A" Association="Self.FK__Requests__Medica__44FF419A">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shipments__Medic__3F466844" Association="Self.FK__Shipments__Medic__3F466844">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Postavki" EntitySet="Postavki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transfers__Medic__49C3F6B7" Association="Self.FK__Transfers__Medic__49C3F6B7">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Transfers" EntitySet="Transfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transfers__FromW__47DBAE45" Association="Self.FK__Transfers__FromW__47DBAE45">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Transfers" EntitySet="Transfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transfers__ToWar__48CFD27E" Association="Self.FK__Transfers__ToWar__48CFD27E">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="Transfers" EntitySet="Transfers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище useModelContainer" CdmEntityContainer="useEntities">
+          <EntitySetMapping Name="Disposals">
+            <EntityTypeMapping TypeName="useModel.Disposals">
+              <MappingFragment StoreEntitySet="Disposals">
+                <ScalarProperty Name="DisposalID" ColumnName="DisposalID" />
+                <ScalarProperty Name="InventoryID" ColumnName="InventoryID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="DisposalDate" ColumnName="DisposalDate" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventory">
+            <EntityTypeMapping TypeName="useModel.Inventory">
+              <MappingFragment StoreEntitySet="Inventory">
+                <ScalarProperty Name="InventoryID" ColumnName="InventoryID" />
+                <ScalarProperty Name="MedicationID" ColumnName="MedicationID" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medications">
+            <EntityTypeMapping TypeName="useModel.Medications">
+              <MappingFragment StoreEntitySet="Medications">
+                <ScalarProperty Name="MedicationID" ColumnName="MedicationID" />
+                <ScalarProperty Name="MedicationName" ColumnName="MedicationName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Postavki">
+            <EntityTypeMapping TypeName="useModel.Postavki">
+              <MappingFragment StoreEntitySet="Postavki">
+                <ScalarProperty Name="ShipmentID" ColumnName="ShipmentID" />
+                <ScalarProperty Name="MedicationID" ColumnName="MedicationID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="useModel.Requests">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="MedicationID" ColumnName="MedicationID" />
+                <ScalarProperty Name="QuantityRequested" ColumnName="QuantityRequested" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="useModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transfers">
+            <EntityTypeMapping TypeName="useModel.Transfers">
+              <MappingFragment StoreEntitySet="Transfers">
+                <ScalarProperty Name="TransferID" ColumnName="TransferID" />
+                <ScalarProperty Name="FromWarehouseID" ColumnName="FromWarehouseID" />
+                <ScalarProperty Name="ToWarehouseID" ColumnName="ToWarehouseID" />
+                <ScalarProperty Name="MedicationID" ColumnName="MedicationID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warehouses">
+            <EntityTypeMapping TypeName="useModel.Warehouses">
+              <MappingFragment StoreEntitySet="Warehouses">
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
